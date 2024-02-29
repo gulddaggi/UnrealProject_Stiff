@@ -521,9 +521,10 @@ FodyWeavers.xsd
 *.sln.iml
 
 # My Ignore
-UnrealProject_Stiff/Binaries/*
-UnrealProject_Stiff/Intermediate/*
-UnrealProejct_Stiff/Saved/*
+Stiff/Binaries/*
+Stiff/Intermediate/*
+Stiff/Saved/*
+Stiff/Content/*
 
 ### VisualStudio Patch ###
 # Additional files built by Visual Studio
