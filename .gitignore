@@ -524,7 +524,6 @@ FodyWeavers.xsd
 Stiff/Binaries/*
 Stiff/Intermediate/*
 Stiff/Saved/*
-Stiff/Content/*
 
 ### VisualStudio Patch ###
 # Additional files built by Visual Studio
