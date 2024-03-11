@@ -13,6 +13,9 @@ class AStiffGameMode : public AGameModeBase
 
 public:
 	AStiffGameMode();
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, category = gauge)
+	int32 gauge;
 };
 
 
