@@ -24,6 +24,15 @@ APlayableCharacter::APlayableCharacter()
 	{
 		GetMesh()->SetSkeletalMesh(SK_MAN.Object);
 	}
+
+	GetMesh()->SetAnimationMode(EAnimationMode::AnimationBlueprint);
+
+	static ConstructorHelpers::FClassFinder<UAnimInstance> MAN_ANIM(TEXT("/Game/Resources/AnimStarterPack/ManAnimBlueprint.ManAnimBlueprint_C"));
+
+	if (MAN_ANIM.Succeeded())
+	{
+		GetMesh()->SetAnimInstanceClass(MAN_ANIM.Class);
+	}
 }
 
 // Called when the game starts or when spawned
