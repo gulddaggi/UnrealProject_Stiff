@@ -37,4 +37,7 @@ private:
 
 	void LeftRight(float NewAxisValue);
 
+	void LookUp(float NewAxiwValue);
+
+	void Turn(float NewAxisValue);
 };

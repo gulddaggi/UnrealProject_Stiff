@@ -33,6 +33,17 @@ APlayableCharacter::APlayableCharacter()
 	{
 		GetMesh()->SetAnimInstanceClass(MAN_ANIM.Class);
 	}
+
+	SpringArm->TargetArmLength = 450.0f;
+	SpringArm->SetRelativeRotation(FRotator::ZeroRotator);
+	SpringArm->bUsePawnControlRotation = true;
+	SpringArm->bInheritPitch = true;
+	SpringArm->bInheritRoll = true;
+	SpringArm->bInheritYaw = true;
+	SpringArm->bDoCollisionTest = true;
+	bUseControllerRotationYaw = false;
+	GetCharacterMovement()->bOrientRotationToMovement = true;
+	GetCharacterMovement()->RotationRate = FRotator(0.0f, 720.0f, 0.0f);
 }
 
 // Called when the game starts or when spawned
@@ -56,15 +67,27 @@ void APlayableCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputC
 	
 	PlayerInputComponent->BindAxis(TEXT("ForwardBack"), this, &APlayableCharacter::ForwardBack);
 	PlayerInputComponent->BindAxis(TEXT("LeftRight"), this, &APlayableCharacter::LeftRight);
+	PlayerInputComponent->BindAxis(TEXT("LookUp"), this, &APlayableCharacter::LookUp);
+	PlayerInputComponent->BindAxis(TEXT("Turn"), this, &APlayableCharacter::Turn);
 }
 
 void APlayableCharacter::ForwardBack(float NewAxisValue)
 {
-	AddMovementInput(GetActorForwardVector(), NewAxisValue);
+	AddMovementInput(FRotationMatrix(GetControlRotation()).GetUnitAxis(EAxis::X), NewAxisValue);
 }
 
 void APlayableCharacter::LeftRight(float NewAxisValue)
 {
-	AddMovementInput(GetActorRightVector(), NewAxisValue);
+	AddMovementInput(FRotationMatrix(GetControlRotation()).GetUnitAxis(EAxis::Y), NewAxisValue);
+}
+
+void APlayableCharacter::LookUp(float NewAxisValue)
+{
+	AddControllerPitchInput(NewAxisValue);
+}
+
+void APlayableCharacter::Turn(float NewAxisValue)
+{
+	AddControllerYawInput(NewAxisValue);
 }
 
