@@ -41,9 +41,9 @@ APlayableCharacter::APlayableCharacter()
 	SpringArm->bInheritRoll = true;
 	SpringArm->bInheritYaw = true;
 	SpringArm->bDoCollisionTest = true;
-	bUseControllerRotationYaw = false;
-	GetCharacterMovement()->bOrientRotationToMovement = true;
-	GetCharacterMovement()->RotationRate = FRotator(0.0f, 720.0f, 0.0f);
+	//bUseControllerRotationYaw = true;
+	//GetCharacterMovement()->bOrientRotationToMovement = true;
+	//GetCharacterMovement()->RotationRate = FRotator(0.0f, 720.0f, 0.0f);
 }
 
 // Called when the game starts or when spawned
@@ -73,7 +73,7 @@ void APlayableCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputC
 
 void APlayableCharacter::ForwardBack(float NewAxisValue)
 {
-	AddMovementInput(FRotationMatrix(GetControlRotation()).GetUnitAxis(EAxis::X), NewAxisValue);
+	AddMovementInput(GetActorForwardVector(), NewAxisValue);
 }
 
 void APlayableCharacter::LeftRight(float NewAxisValue)
