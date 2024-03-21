@@ -2,6 +2,7 @@
 
 
 #include "PlayableCharacter.h"
+#include "StiffAnimInstance.h"
 
 // Sets default values
 APlayableCharacter::APlayableCharacter()
@@ -46,6 +47,12 @@ APlayableCharacter::APlayableCharacter()
 	//GetCharacterMovement()->RotationRate = FRotator(0.0f, 720.0f, 0.0f);
 }
 
+void APlayableCharacter::PostInitializeComponents()
+{
+	Super::PostInitializeComponents();
+	ASAnim = Cast<UStiffAnimInstance>(GetMesh()->GetAnimInstance());
+}
+
 // Called when the game starts or when spawned
 void APlayableCharacter::BeginPlay()
 {
@@ -64,7 +71,9 @@ void APlayableCharacter::Tick(float DeltaTime)
 void APlayableCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
-	
+
+	PlayerInputComponent->BindAction(TEXT("Fire"), EInputEvent::IE_Pressed, this, &APlayableCharacter::Fire);
+
 	PlayerInputComponent->BindAxis(TEXT("ForwardBack"), this, &APlayableCharacter::ForwardBack);
 	PlayerInputComponent->BindAxis(TEXT("LeftRight"), this, &APlayableCharacter::LeftRight);
 	PlayerInputComponent->BindAxis(TEXT("LookUp"), this, &APlayableCharacter::LookUp);
@@ -79,6 +88,11 @@ void APlayableCharacter::ForwardBack(float NewAxisValue)
 void APlayableCharacter::LeftRight(float NewAxisValue)
 {
 	AddMovementInput(FRotationMatrix(GetControlRotation()).GetUnitAxis(EAxis::Y), NewAxisValue);
+}
+
+void APlayableCharacter::Fire()
+{
+	ASAnim->FireOn();
 }
 
 void APlayableCharacter::LookUp(float NewAxisValue)

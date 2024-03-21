@@ -6,6 +6,7 @@
 UStiffAnimInstance::UStiffAnimInstance()
 {
 	CurrentSpeed = 0.0f;
+	IsFire = false;
 }
 
 void UStiffAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
@@ -18,5 +19,15 @@ void UStiffAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 	{
 		CurrentSpeed = Pawn->GetVelocity().Size();
 	}
+
+	if (this->GetCurrentStateName(0) == FName(TEXT("Fire")))
+	{
+		IsFire = false;
+	}
+}
+
+void UStiffAnimInstance::FireOn()
+{
+	IsFire = true;
 }
 
