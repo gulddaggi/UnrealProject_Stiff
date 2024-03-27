@@ -31,6 +31,9 @@ public:
 	UPROPERTY(VisibleAnywhere, Category = Camera)
 	UCameraComponent* Camera;
 
+	UPROPERTY(VisibleAnywhere, Category = Weapon)
+	UStaticMeshComponent* Gun;
+
 private:
 	void ForwardBack(float NewAxisValue);
 	void LeftRight(float NewAxisValue);

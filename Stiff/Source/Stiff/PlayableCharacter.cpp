@@ -35,6 +35,18 @@ APlayableCharacter::APlayableCharacter()
 	Camera->bUsePawnControlRotation = true;
 	bUseControllerRotationPitch = true;
 
+	FName GunSocket(TEXT("gunSocket"));
+	if (GetMesh()->DoesSocketExist(GunSocket))
+	{
+		Gun = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("GUN"));
+		static ConstructorHelpers::FObjectFinder<UStaticMesh> ST_GUN(TEXT("/Game/Resources/FPS_Weapon_Bundle/Weapons/Meshes/ENT_GUN/Meshes/Rifle_Static.Rifle_Static"));
+		if (ST_GUN.Succeeded())
+		{
+			Gun->SetStaticMesh(ST_GUN.Object);
+		}
+		Gun->SetupAttachment(GetMesh(), GunSocket);
+	}
+
 }
 
 void APlayableCharacter::PostInitializeComponents()
