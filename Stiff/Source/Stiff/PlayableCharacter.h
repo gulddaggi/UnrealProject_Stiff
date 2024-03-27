@@ -29,9 +29,6 @@ public:
 	virtual void PostInitializeComponents() override;
 
 	UPROPERTY(VisibleAnywhere, Category = Camera)
-	USpringArmComponent* SpringArm;
-
-	UPROPERTY(VisibleAnywhere, Category = Camera)
 	UCameraComponent* Camera;
 
 private:
