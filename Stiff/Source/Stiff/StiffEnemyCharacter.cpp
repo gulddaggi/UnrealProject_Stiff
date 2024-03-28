@@ -19,6 +19,7 @@ AStiffEnemyCharacter::AStiffEnemyCharacter()
 	GetMesh()->SetRelativeLocationAndRotation(FVector(0.0f, 0.0f, -88.0f), FRotator(0.0f, -90.0f, 0.0f));
 
 	GetMesh()->SetAnimationMode(EAnimationMode::AnimationBlueprint);
+	GetCapsuleComponent()->SetCollisionProfileName(TEXT("Enemy"));
 
 	static ConstructorHelpers::FClassFinder<UAnimInstance> ENEMY_ANIM(TEXT("/Game/Resources/AnimStarterPack/ManAnimBlueprint.ManAnimBlueprint_C"));
 
@@ -27,7 +28,7 @@ AStiffEnemyCharacter::AStiffEnemyCharacter()
 		GetMesh()->SetAnimInstanceClass(ENEMY_ANIM.Class);
 	}
 
-
+	PauseTime = 2.0f;
 }
 
 // Called when the game starts or when spawned
@@ -49,5 +50,16 @@ void AStiffEnemyCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInpu
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+}
+
+void AStiffEnemyCharacter::PauseAnim()
+{
+	GetMesh()->bPauseAnims = true;
+	GetWorldTimerManager().SetTimer(PauseTimer, this, &AStiffEnemyCharacter::PlayAnim, PauseTime, false);
+}
+
+void AStiffEnemyCharacter::PlayAnim()
+{
+	GetMesh()->bPauseAnims = false;
 }
 

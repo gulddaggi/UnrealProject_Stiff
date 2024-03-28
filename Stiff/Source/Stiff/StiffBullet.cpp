@@ -3,6 +3,7 @@
 
 #include "StiffBullet.h"
 #include "Engine/Classes/GameFramework/ProjectileMovementComponent.h"
+#include "StiffEnemyCharacter.h"
 
 // Sets default values
 AStiffBullet::AStiffBullet()
@@ -24,6 +25,10 @@ AStiffBullet::AStiffBullet()
 
 	GetRootComponent()->SetWorldRotation(FRotator(0.0f, -90.0f, 0.0f));
 
+	Mesh->SetCollisionProfileName(TEXT("Bullet"));
+	Mesh->SetNotifyRigidBodyCollision(true);
+
+	Mesh->OnComponentHit.AddDynamic(this, &AStiffBullet::OnHit);
 }
 
 // Called when the game starts or when spawned
@@ -31,6 +36,25 @@ void AStiffBullet::BeginPlay()
 {
 	Super::BeginPlay();
 	
+}
+
+void AStiffBullet::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit)
+{
+	if (OtherActor != this)
+	{
+		AStiffEnemyCharacter* Enemy = Cast<AStiffEnemyCharacter>(OtherActor);
+		if (Enemy)
+		{
+			Enemy->PauseAnim();
+			UE_LOG(LogTemp, Log, TEXT("Enemy Hit"));
+		}
+		else
+		{
+			UE_LOG(LogTemp, Log, TEXT("Enemy not exist"));
+
+		}
+	}
+	Destroy();
 }
 
 // Called every frame
