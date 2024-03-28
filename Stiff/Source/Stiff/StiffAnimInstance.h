@@ -20,8 +20,15 @@ public:
 
 	virtual void NativeUpdateAnimation(float DeltaSeconds) override;
 
+public:
+	void FireOn();
+
+	bool GetIsFire();
+
 private:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Pawn, Meta=(AllowPrivateAccess=true))
 	float CurrentSpeed;
 	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Pawn, Meta=(AllowPrivateAccess=true))
+	bool IsFire;
 };

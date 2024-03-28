@@ -26,18 +26,33 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	UPROPERTY(VisibleAnywhere, Category = Camera)
-	USpringArmComponent* SpringArm;
+	virtual void PostInitializeComponents() override;
 
 	UPROPERTY(VisibleAnywhere, Category = Camera)
 	UCameraComponent* Camera;
 
+	UPROPERTY(VisibleAnywhere, Category = Weapon)
+	UStaticMeshComponent* Gun;
+
+	UPROPERTY()
+	FVector BulletSpawnLocation;
+
 private:
 	void ForwardBack(float NewAxisValue);
-
 	void LeftRight(float NewAxisValue);
+	void Fire();
 
 	void LookUp(float NewAxiwValue);
 
 	void Turn(float NewAxisValue);
+
+	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly, Category = Attack, Meta=(AllowPrivateAccess=true))
+	bool isAttacking;
+
+	UPROPERTY()
+	class UStiffAnimInstance* ASAnim;
+
+	UPROPERTY(EditDefaultsOnly, Category = Projectile)
+	TSubclassOf<class AStiffBullet> ProjectileClass;
+
 };
