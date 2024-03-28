@@ -18,6 +18,16 @@ AStiffEnemyCharacter::AStiffEnemyCharacter()
 
 	GetMesh()->SetRelativeLocationAndRotation(FVector(0.0f, 0.0f, -88.0f), FRotator(0.0f, -90.0f, 0.0f));
 
+	GetMesh()->SetAnimationMode(EAnimationMode::AnimationBlueprint);
+
+	static ConstructorHelpers::FClassFinder<UAnimInstance> ENEMY_ANIM(TEXT("/Game/Resources/AnimStarterPack/ManAnimBlueprint.ManAnimBlueprint_C"));
+
+	if (ENEMY_ANIM.Succeeded())
+	{
+		GetMesh()->SetAnimInstanceClass(ENEMY_ANIM.Class);
+	}
+
+
 }
 
 // Called when the game starts or when spawned
