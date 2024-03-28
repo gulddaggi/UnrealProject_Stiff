@@ -3,6 +3,7 @@
 
 #include "PlayableCharacter.h"
 #include "StiffAnimInstance.h"
+#include "StiffBullet.h"
 
 // Sets default values
 APlayableCharacter::APlayableCharacter()
@@ -47,6 +48,7 @@ APlayableCharacter::APlayableCharacter()
 		Gun->SetupAttachment(GetMesh(), GunSocket);
 	}
 
+	ProjectileClass = AStiffBullet::StaticClass();
 }
 
 void APlayableCharacter::PostInitializeComponents()
@@ -95,6 +97,31 @@ void APlayableCharacter::LeftRight(float NewAxisValue)
 void APlayableCharacter::Fire()
 {
 	ASAnim->FireOn();
+	if (ProjectileClass && ASAnim->GetIsFire())
+	{
+		UWorld* World = GetWorld();
+		if (World)
+		{
+			FName BulletSocket(TEXT("BulletSocket"));
+			FRotator BulletSpawnRotation;
+			if (Gun->DoesSocketExist(BulletSocket))
+			{
+				Gun->GetSocketWorldLocationAndRotation(BulletSocket, BulletSpawnLocation, BulletSpawnRotation);
+			}
+
+			FActorSpawnParameters SpawnParams;
+			SpawnParams.Owner = this;
+			SpawnParams.Instigator = GetInstigator();
+			AStiffBullet* Projectile = World->SpawnActor<AStiffBullet>(ProjectileClass, BulletSpawnLocation, FRotator::ZeroRotator, SpawnParams);
+			FRotator ShootingDirection = GetControlRotation();
+			FRotator BulletRotation = Gun->GetSocketQuaternion(BulletSocket).Rotator();
+			Projectile->FireToDirection(ShootingDirection, BulletRotation);
+		}
+		else UE_LOG(LogTemp, Log, TEXT("World not exist"));
+		
+
+	}
+	else UE_LOG(LogTemp, Log, TEXT("Projectile not exist"));
 }
 
 void APlayableCharacter::LookUp(float NewAxisValue)

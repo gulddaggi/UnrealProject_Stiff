@@ -29,6 +29,14 @@ void UStiffAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 
 void UStiffAnimInstance::FireOn()
 {
-	IsFire = true;
+	if (!IsFire)
+	{
+		IsFire = true;
+	}
+}
+
+bool UStiffAnimInstance::GetIsFire()
+{
+	return IsFire;
 }
 

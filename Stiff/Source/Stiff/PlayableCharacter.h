@@ -34,6 +34,9 @@ public:
 	UPROPERTY(VisibleAnywhere, Category = Weapon)
 	UStaticMeshComponent* Gun;
 
+	UPROPERTY()
+	FVector BulletSpawnLocation;
+
 private:
 	void ForwardBack(float NewAxisValue);
 	void LeftRight(float NewAxisValue);
@@ -48,4 +51,8 @@ private:
 
 	UPROPERTY()
 	class UStiffAnimInstance* ASAnim;
+
+	UPROPERTY(EditDefaultsOnly, Category = Projectile)
+	TSubclassOf<class AStiffBullet> ProjectileClass;
+
 };
